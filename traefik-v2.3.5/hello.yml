@@ -1,0 +1,46 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: hello-world
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: hello-world
+   template:
+      metadata:
+         labels:
+            app: hello-world
+      spec:
+         containers:
+            - name: hello-world
+              image: tutum/hello-world
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: hello-world
+   labels:
+      app: hello-world
+spec:
+   ports:
+      - port: 80
+        name: hello-world
+   selector:
+      app: hello-world
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hello-ingress
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`yourdomain.com`)
+    kind: Rule
+    services:
+    - name: hello-world
+      port: 80
+  tls:
+      certResolver: myresolver
