@@ -1,0 +1,144 @@
+# Source: portainer/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: portainer-sa-clusteradmin
+  namespace: default
+  labels:
+    app.kubernetes.io/name: portainer
+    app.kubernetes.io/instance: portainer
+    app.kubernetes.io/version: "2.0.0"
+---
+# Source: portainer/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: portainer
+  labels:
+    app.kubernetes.io/name: portainer
+    app.kubernetes.io/instance: portainer
+    app.kubernetes.io/version: "2.0.0"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  namespace: default
+  name: portainer-sa-clusteradmin
+---
+# Source: portainer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: portainer
+  namespace: default
+  labels:
+    io.portainer.kubernetes.application.stack: portainer
+    app.kubernetes.io/name: portainer
+    app.kubernetes.io/instance: portainer
+    app.kubernetes.io/version: "2.0.0"
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+      name: http
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: edge
+  selector:
+    app.kubernetes.io/name: portainer
+    app.kubernetes.io/instance: portainer
+---
+# Source: portainer/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portainer
+  namespace: default
+  labels:
+    io.portainer.kubernetes.application.stack: portainer
+    app.kubernetes.io/name: portainer
+    app.kubernetes.io/instance: portainer
+    app.kubernetes.io/version: "2.0.0"
+spec:
+  replicas: 1
+  strategy:
+    type: "Recreate"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: portainer
+      app.kubernetes.io/instance: portainer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: portainer
+        app.kubernetes.io/instance: portainer
+    spec:
+      serviceAccountName: portainer-sa-clusteradmin
+      volumes:
+         - name: "portainer-data"
+           hostPath:
+             path: /mnt/data/portainer
+             type: Directory    
+      containers:
+        - name: portainer
+          image: "portainer/portainer-ee:2.0.0"
+          imagePullPolicy: IfNotPresent          
+          volumeMounts:
+            - name: portainer-data
+              mountPath: /data
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+            - name: tcp-edge
+              containerPort: 8000
+              protocol: TCP              
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9000
+          resources:
+            {}
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: portainer-front-tls
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`portainer.cduser.com`)
+    kind: Rule
+    services:
+    - name: portainer
+      port: 9000
+  tls:
+      certResolver: myresolver
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: portainer-edge-tls
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`edge.portainer.cduser.com`)
+    kind: Rule
+    services:
+    - name: portainer
+      port: 8000
+  tls:
+      certResolver: myresolver
