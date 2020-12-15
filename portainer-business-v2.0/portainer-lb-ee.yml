@@ -118,7 +118,7 @@ spec:
   entryPoints:  
     - websecure
   routes:
-  - match: Host(`portainer.cduser.com`)
+  - match: Host(`portainer.yourdomain.com`)
     kind: Rule
     services:
     - name: portainer
@@ -135,7 +135,7 @@ spec:
   entryPoints:  
     - websecure
   routes:
-  - match: Host(`edge.portainer.cduser.com`)
+  - match: Host(`edge.portainer.yourdomain.com`)
     kind: Rule
     services:
     - name: portainer
