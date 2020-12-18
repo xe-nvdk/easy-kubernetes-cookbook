@@ -1,15 +1,9 @@
-- name: YAML Lint
-  # You may pin to the exact commit or the version.
-  # uses: ibiqlik/action-yamllint@b2aeacc1b7eeb8c23e84bba320d04fb5d6a323ee
-  uses: ibiqlik/action-yamllint@v3.0.0
-  with:
-    # File(s) or Directory, separate by space if multiple files or folder are specified
-    file_or_dir: # optional
-    # Path to custom configuration
-    config_file: # optional
-    # Custom configuration (as YAML source)
-    config_data: # optional
-    # Format for parsing output [parsable,standard,colored,github,auto]
-    format: # optional, default is github
-    # Return non-zero exit code on warnings as well as errors
-    strict: # optional, default is false
+name: Yaml Lint
+on: [push]
+jobs:
+  lintAllTheThings:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: yaml-lint
+      uses: ibiqlik/action-yamllint@v3
