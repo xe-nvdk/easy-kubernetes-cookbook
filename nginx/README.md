@@ -11,3 +11,6 @@ Once folder was created, you need to modify the IngressRoute with your address, 
 ```
 $ kubectl apply -f nginx.yml
 ```
+## Screenshot
+
+![nginx](screenshot.png)
