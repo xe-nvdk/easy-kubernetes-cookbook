@@ -14,3 +14,7 @@ Once folders were created, you need to modify the IngressRoute with your address
 ```
 $ kubectl apply -f calibre-web.yml
 ```
+
+## Screenshot
+
+![calibre-web](screenshot.png)
