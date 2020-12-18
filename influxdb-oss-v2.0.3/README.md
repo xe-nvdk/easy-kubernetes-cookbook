@@ -11,3 +11,7 @@ Once the folder was created, you need to modify the IngressRoute with your addre
 ```
 $ kubectl apply -f influxdb.yml
 ```
+
+## Screenshot
+
+![influxdb](screenshot.png)
