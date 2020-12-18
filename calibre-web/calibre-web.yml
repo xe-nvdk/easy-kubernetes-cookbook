@@ -1,0 +1,71 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: calibre-web
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: calibre-web
+   template:
+      metadata:
+         labels:
+            app: calibre-web
+      spec:
+         containers:
+            - name: calibre-web
+              image: linuxserver/calibre-web
+              volumeMounts:
+              - mountPath: /books
+                name: calibre-web-data-books
+              - mountPath: /config
+                name: calibre-web-data-config
+              env:
+              - name: PGID
+                value: "100"
+              - name: PUID
+                value: "1000"
+              - name: TZ
+                value: "America/Montevideo"
+              - name: DOCKER_MODS
+                value: "linuxserver/calibre-web:calibre"
+         volumes:
+         - name: calibre-web-data-books
+           hostPath:
+              path: /mnt/data/calibre-web-data/books
+              type: Directory
+         - name: calibre-web-data-config
+           hostPath:
+              path: /mnt/data/calibre-web-data/config
+              type: Directory
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: calibre-web
+   labels:
+      app: calibre-web
+spec:
+   ports:
+      - port: 8083
+        name: calibre-web
+   selector:
+      app: calibre-web
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre-web-ingress
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`books.yourdomain.com`)
+    kind: Rule
+    services:
+    - name: calibre-web
+      port: 8083
+  tls:
+      certResolver: myresolver

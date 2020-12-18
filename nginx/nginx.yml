@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: nginx
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: nginx
+   template:
+      metadata:
+         labels:
+            app: nginx
+      spec:
+         containers:
+            - name: nginx
+              image: nginx:latest
+              volumeMounts:
+              - mountPath: /usr/share/nginx/html
+                name: nginx-data
+         volumes:
+         - name: nginx-data
+           hostPath:
+              path: /mnt/data/nginx-data
+              type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: nginx
+   labels:
+      app: nginx
+spec:
+   ports:
+      - port: 80
+        name: nginx
+   selector:
+      app: nginx
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ignacio-ingress
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`yourdomain.com`)
+    kind: Rule
+    services:
+    - name: nginx
+      port: 80
+  tls:
+      certResolver: myresolver

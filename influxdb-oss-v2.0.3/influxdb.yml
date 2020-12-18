@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: influxdb
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: influxdb
+   template:
+      metadata:
+         labels:
+            app: influxdb
+      spec:
+         containers:
+            - name: influxdb
+              image: quay.io/influxdb/influxdb:v2.0.2
+              volumeMounts:
+              - mountPath: /root/.influxdbv2/
+                name: influxdb-data
+         volumes:
+         - name: influxdb-data
+           hostPath:
+              path: /mnt/data/influxdb
+              type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: influxdb
+   labels:
+      app: influxdb
+spec:
+   ports:
+      - port: 8086
+        name: influxdb
+   selector:
+      app: influxdb
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: influxdb-tls
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`influxdb.yourdomain.com`)
+    kind: Rule
+    services:
+    - name: influxdb
+      port: 8086
+  tls:
+      certResolver: myresolver
