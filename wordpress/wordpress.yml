@@ -1,0 +1,66 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: wordpress
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: wordpress
+   template:
+      metadata:
+         labels:
+            app: wordpress
+      spec:
+         containers:
+            - name: wordpress
+              image: wordpress:latest
+              volumeMounts:
+              - mountPath: /var/www/html
+                name: wordpress-data
+              env:
+              - name: WORDPRESS_DB_HOST
+                value: "mariadb"
+              - name: WORDPRESS_DB_USER
+                value: "your-user"
+              - name: WORDPRESS_DB_PASSWORD
+                value: "your-password"
+              - name: WORDPRESS_DB_NAME
+                value: "your-db"
+         volumes:
+         - name: wordpress-data
+           hostPath:
+              path: /mnt/data/wordpress-data
+              type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: wordpress
+   labels:
+      app: wordpress
+spec:
+   ports:
+      - port: 80
+        name: wordpress
+   selector:
+      app: wordpress
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wordpress-tls
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`your-domain`)
+    kind: Rule
+    services:
+    - name: wordpress
+      port: 80
+  tls:
+      certResolver: myresolver
