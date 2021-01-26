@@ -1,4 +1,4 @@
-![kubernetes](https://kubernetes.io/images/kubernetes-horizontal-color.png)
+![kubernetes](https://cambiodigital-ol.com/wp-content/uploads/2019/02/Kubernetes_New.png)
 
 # Easy Kubernetes Cookbook
 I'm leaving Docker Swarm and Docker standalone to run all my workloads in Kubernetes, so, I'm building a few recipes with what I need and I posted here to share with others.
