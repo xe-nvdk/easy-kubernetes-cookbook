@@ -61,3 +61,12 @@ spec:
               containerPort: 80
             - name: websecure
               containerPort: 443
+          volumeMounts:
+          - mountPath: /etc/acme.json
+            name: acme-store
+       volumes:
+       - name: acme-store
+         hostPath:
+            path: /mnt/data/traefik/acme.json
+            type: File
+
