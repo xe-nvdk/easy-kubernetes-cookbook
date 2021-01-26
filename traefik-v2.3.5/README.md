@@ -15,3 +15,4 @@ $ kubectl apply -f deployment.yml
 ```
 $ kubectl apply -f hello.yml
 ```
+![traefik](https://doc.traefik.io/traefik/assets/img/webui-dashboard.png)
