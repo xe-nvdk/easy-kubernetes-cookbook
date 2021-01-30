@@ -1,0 +1,43 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: telegraf
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: telegraf
+   template:
+      metadata:
+         labels:
+            app: telegraf
+      spec:
+         containers:
+            - name: telegraf
+              image: telegraf:latest
+              volumeMounts:
+              - mountPath: /etc/telegraf/telegraf.conf
+                name: telegraf-data
+         volumes:
+         - name: telegraf-data
+           hostPath:
+              path: /mnt/data/telegraf/telegraf.conf
+              type: File
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: telegraf
+   labels:
+      app: telegraf
+spec:
+   ports:
+      - port: 8125
+        name: statsd
+      - port: 8092
+        name: udp
+      - port: 8094
+        name: tcp
+   selector:
+      app: telegraf
