@@ -6,7 +6,7 @@ This recipe deploy several resources that includes a deployment, service, and In
 $ mkdir -p /mnt/data/calibre-web-data/config
 ```
 ```
-$ mkdir -p /mnt/data/calibre-web-data/config
+$ mkdir -p /mnt/data/calibre-web-data/books
 ```
 
 Once folders were created, you need to modify the IngressRoute with your address, after that, you're ready to deploy Calibre Web:
