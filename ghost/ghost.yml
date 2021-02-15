@@ -1,0 +1,61 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: ghost
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: ghost
+   template:
+      metadata:
+         labels:
+            app: ghost
+      spec:
+         containers:
+            - name: ghost
+              image: ghost:latest
+              volumeMounts:
+              - mountPath: /var/lib/ghost/content/
+                name: ghost-data
+              - mountPath: /var/lib/ghost/config.production.json
+                name: ghost-config
+         volumes:
+         - name: ghost-data
+           hostPath:
+              path: /mnt/data/ghost/content
+              type: Directory
+         - name: ghost-config
+           hostPath:
+              path: /mnt/data/ghost/config.production.json
+              type: File
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: ghost
+   labels:
+      app: ghost
+spec:
+   ports:
+      - port: 2368
+        name: ghost
+   selector:
+      app: ghost
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ghost-tls
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`your-domain.com`)
+    kind: Rule
+    services:
+    - name: ghost
+      port: 2368
+  tls:
+      certResolver: myresolver
