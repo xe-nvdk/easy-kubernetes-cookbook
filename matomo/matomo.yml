@@ -1,0 +1,65 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: matomo
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: matomo
+   template:
+      metadata:
+         labels:
+            app: matomo
+      spec:
+         containers:
+            - name: matomo
+              image: matomo:latest
+              volumeMounts:
+              - mountPath: /var/www/html
+                name: matomo-data
+              env:
+              - name: MATOMO_DATABASE_HOST
+                value: "mariadb"
+              - name: MATOMO_DATABASE_USERNAME
+                value: "your-user"
+              - name: MATOMO_DATABASE_PASSWORD
+                value: "your-password"
+              - name: WORDPRESS_DATABASE_DBNAME
+                value: "matomo"
+         volumes:
+         - name: matomo-data
+           hostPath:
+              path: /mnt/data/matomo-data
+              type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: matomo
+   labels:
+      app: matomo
+spec:
+   ports:
+      - port: 80
+        name: matomo
+   selector:
+      app: matomo
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: matomo-tls
+spec:
+  entryPoints:  
+    - websecure
+  routes:
+  - match: Host(`your-url`)
+    kind: Rule
+    services:
+    - name: matomo
+      port: 80
+  tls:
+      certResolver: myresolver
