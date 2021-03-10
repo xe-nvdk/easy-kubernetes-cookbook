@@ -1,0 +1,79 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: grafana
+spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: grafana
+   template:
+      metadata:
+         labels:
+            app: grafana
+      spec:
+         containers:
+            - name: grafana
+              image: grafana/grafana
+              volumeMounts:
+              - mountPath: /var/lib/grafana
+                name: grafana-data
+              env:
+              - name: GF_SERVER_ROOT_URL
+                value: "https://grafana.your-domain.com"
+              - name: GF_AUTH_GITHUB_ENABLED
+                value: "true"
+              - name: GF_AUTH_GITHUB_ALLOW_SIGN_UP
+                value: "true"
+              - name: GF_AUTH_GITHUB_SCOPES
+                value: "user:email,read:org"
+              - name: GF_AUTH_GITHUB_AUTH_URL
+                value: "https://github.com/login/oauth/authorize"
+              - name: GF_AUTH_GITHUB_TOKEN_URL
+                value: "https://github.com/login/oauth/access_token"
+              - name: GF_AUTH_GITHUB_API_URL
+                value: "https://api.github.com/user"
+              - name: GF_AUTH_GITHUB_CLIENT_ID
+                value: "your-github-app-id"
+              - name: GF_AUTH_GITHUB_CLIENT_SECRET
+                value: "your-github-app-secret-id"
+              - name: GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS
+                value: "your-org-github"
+         securityContext:
+                runAsUser: 472
+                fsGroup: 472
+         volumes:
+         - name: grafana-data
+           hostPath:
+              path: /mnt/data/grafana/
+              type: Directory
+         nodeName: ip-172-31-8-253
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: grafana
+   labels:
+      app: grafana
+spec:
+   ports:
+      - port: 3000
+        name: grafana
+   selector:
+      app: grafana
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-tls
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`grafana.your-domain.com`)
+    kind: Rule
+    services:
+    - name: grafana
+      port: 3000
+  tls:
+      certResolver: myresolver
