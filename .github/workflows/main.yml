@@ -1,0 +1,4 @@
+- name: Yaml-Checker
+  # You may pin to the exact commit or the version.
+  # uses: leon-th/yaml-checker@2b9db0be751e8ba8fc6cff66e868eb0072906715
+  uses: leon-th/yaml-checker@v1.0.0
