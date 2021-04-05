@@ -12,3 +12,6 @@ All these recipes are created using Traefik as Ingress. So, in the services that
 If you see that something can be better, go ahead a contribute with this Cookbook.
 
 ## Recipes
+
+| Applications         | Description | Author |
+|----------------------|-------------|:------:|
