@@ -1,9 +1,15 @@
-name: Yaml Lint
-on: [push]
+# .github/workflows/manifests-validation.yml
+name: Pull Request Check
+
+on: [pull_request]
+
 jobs:
-  lintAllTheThings:
+  validation:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: yaml-lint
-      uses: ibiqlik/action-yamllint@v3
+      - uses: actions/checkout@v2
+      - name: validate manifest-dir
+        uses: makocchi-git/actions-k8s-manifests-validate-conftest@1.1.0
+        with:
+          file: manifest-dir
+          token: ${{ secrets.GITHUB_TOKEN }}
