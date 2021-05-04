@@ -15,4 +15,7 @@ If you see that something can be better, go ahead a contribute with this Cookboo
 
 | Applications         | Description | Author |
 |----------------------|-------------|:------:|
-| Calibre Web | Calibre-Web is a web app for browsing, reading and downloading eBooks using an existing Calibre database | [Ignacio Van Droogenbroeck](xe-nvdk) |
+| [Calibre Web](calibre-web) | Calibre-Web is a web app for browsing, reading and downloading eBooks using an existing Calibre database | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
+| [Ghost](ghost) | The world's most popular modern publishing platform for creating a new media platform. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
+| [Grafana](grafana) | The world's most popular technology used to compose observability dashboards. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
+| [InfluxDB OSS](influxdb-oss-v2.0.3) | InfluxDB OSS is an open source time series database designed to handle high write and query loads | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
