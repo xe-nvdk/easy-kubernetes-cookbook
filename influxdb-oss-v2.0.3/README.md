@@ -1,4 +1,4 @@
-# InfluxDB OSS v2.0.3
+# InfluxDB OSS v2.0.6
 
 This recipe deploy several resources that includes a deployment, service, and IngressRoute. You need to create one folder where the config and databases will going to be saved. 
 
