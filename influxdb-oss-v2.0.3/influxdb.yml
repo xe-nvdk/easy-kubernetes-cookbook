@@ -14,7 +14,7 @@ spec:
       spec:
          containers:
             - name: influxdb
-              image: quay.io/influxdb/influxdb:v2.0.2
+              image: quay.io/influxdb/influxdb:v2.0.6
               volumeMounts:
               - mountPath: /root/.influxdbv2/
                 name: influxdb-data
