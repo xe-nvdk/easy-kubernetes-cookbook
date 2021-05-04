@@ -23,6 +23,6 @@ If you see that something can be better, go ahead a contribute with this Cookboo
 | [Matomo](matomo) | Google Analytics alternative that protects your data and your customers' privacy. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
 | [Nginx](nginx) | nginx [engine x] is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
 | [Portainer Business]([portainer-business-v2.0) | Solution to administer Kubernetes and Docker Swarm cluster from a GUI. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
-| [Telegraf](telegraf) | elegraf is a plugin-driven server agent for collecting and sending metrics and events from diverse systems. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
+| [Telegraf](telegraf) | Telegraf is a plugin-driven server agent for collecting and sending metrics and events from diverse systems. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
 | [Traefik](traefik-v2.3.5) | Traefik is an open-source Edge Router that makes publishing your services a fun and easy experience. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
 | [Wordpress](wordpress) | WordPress is open source software you can use to create a beautiful website, blog, or app. | [Ignacio Van Droogenbroeck](github.com/xe-nvdk) |
