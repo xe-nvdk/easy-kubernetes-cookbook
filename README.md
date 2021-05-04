@@ -15,4 +15,4 @@ If you see that something can be better, go ahead a contribute with this Cookboo
 
 | Applications         | Description | Author |
 |----------------------|-------------|:------:|
-| Calibre Web | Calibre-Web is a web app for browsing, reading and downloading eBooks using an existing Calibre database | [Ignacio Van Droogenbroeck(xe-nvdk) |
+| Calibre Web | Calibre-Web is a web app for browsing, reading and downloading eBooks using an existing Calibre database | [Ignacio Van Droogenbroeck](xe-nvdk) |
