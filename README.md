@@ -2,6 +2,8 @@
 
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=xe-nvdk/easy-kubernetes-cookbook)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B34N5TU)
+
 # Easy Kubernetes Cookbook
 I'm leaving Docker Swarm and Docker standalone to run all my workloads in Kubernetes, so I'm building a few recipes with what I need, and I posting here to share with others.
 
