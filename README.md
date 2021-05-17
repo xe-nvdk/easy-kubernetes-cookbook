@@ -1,6 +1,6 @@
-![kubernetes](https://cambiodigital-ol.com/wp-content/uploads/2019/02/Kubernetes_New.png)
-
-![visitors](https://visitor-badge.glitch.me/badge?page_id=xe-nvdk/easy-kubernetes-cookbook)
+<p align="center">
+  <img src="https://cambiodigital-ol.com/wp-content/uploads/2019/02/Kubernetes_New.png" />
+</p>
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B34N5TU)
 
