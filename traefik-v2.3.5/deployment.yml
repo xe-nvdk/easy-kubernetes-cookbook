@@ -62,7 +62,7 @@ spec:
             - name: websecure
               containerPort: 443
          volumeMounts:
-            - mountPath: /etc/acme.json
+            - mountPath: /acme.json
               name: acme-store
       volumes:
        - name: acme-store
